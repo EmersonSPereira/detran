@@ -1,23 +1,20 @@
 package br.com.ctis.detran.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
-import br.com.ctis.detran.enumeration.MensagemEnum;
 import br.com.ctis.detran.enumeration.MultasEnum;
-import br.com.ctis.detran.exception.DAOException;
-import br.com.ctis.detran.exception.NegocioException;
-import br.com.ctis.detran.exception.RegistroNaoEncontradoException;
 import br.com.ctis.detran.persistence.model.Multa;
 import br.com.ctis.detran.persistence.model.Veiculo;
 import br.com.ctis.detran.service.MultaService;
 import br.com.ctis.detran.service.VeiculoService;
-import br.com.ctis.detran.util.MensagemUtil;
 
 @Stateless
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
@@ -53,15 +50,35 @@ public class MultaServiceImpl extends GenericServiceImpl<Long, Multa> implements
 	}
 
 	@Override
-	public List<Multa> consultarMultas(String placa) {
+	public List<Multa> consultarMultasPorplaca(String placa) {
+
+		return ordenarMultasPorData (veiculoService.buscarVeiculoPorPlaca(placa).getMultas());
+	}
+
+	@Override
+	public List<Multa> consultarMultasPorCpfCnpj(String cpfCnpj) {
 		
-		try {
-			return veiculoService.buscarVeiculoPorPlacaOuCpfCnpj(placa).getMultas();
-		} catch (RegistroNaoEncontradoException e) {
-			throw new NegocioException(MensagemUtil.getMessage(MensagemEnum.MSG002));
-		} catch (DAOException e) {
-			throw new NegocioException(MensagemUtil.getMessage(MensagemEnum.MSG001));
+		List<Multa> multas = new ArrayList<Multa>();
+		for(Veiculo veiculo : veiculoService.buscarVeiculoPorCpfCnpjProprietario(cpfCnpj)) {
+			
+			if(!multas.containsAll(veiculo.getMultas())) {
+				multas.addAll(veiculo.getMultas());
+			}
 		}
+		return ordenarMultasPorData(multas);
+	}
+	
+	/**
+	 * ordena uma lista de multas pela data
+	 * 
+	 * @param multas - a serem ordenada
+	 * @return {@link List<Multa>} lista ordenada
+	 */
+	private List<Multa> ordenarMultasPorData(List<Multa> multas){
+		
+		return multas.stream()
+				.sorted((multa1, multa2) -> multa1.getData().compareTo(multa2.getData()))
+				.collect(Collectors.toList());
 	}
 
 }

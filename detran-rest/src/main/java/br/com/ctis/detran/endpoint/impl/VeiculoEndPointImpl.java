@@ -9,16 +9,24 @@ import br.com.ctis.detran.dto.veiculo.CadastrarVeiculoDTO;
 import br.com.ctis.detran.endpoint.VeiculoEndPoint;
 import br.com.ctis.detran.service.VeiculoService;
 
-public class VeiculoEndPointImpl implements VeiculoEndPoint{
+public class VeiculoEndPointImpl implements VeiculoEndPoint {
 
 	@EJB
 	private VeiculoService veiculoService;
-	
+
 	@Override
 	public Response cadastrarVeiculo(CadastrarVeiculoDTO veiculoDTO) {
-		
-		veiculoService.CadastrarVeiculo(veiculoDTO);
-		return Response.status(Status.CREATED).entity(new MensagemRetornoDTO("Veículo cadastrado com sucesso!")).build();
+
+		veiculoService.cadastrarVeiculo(veiculoDTO);
+		return Response.status(Status.CREATED).entity(new MensagemRetornoDTO("Veículo cadastrado com sucesso!"))
+				.build();
+	}
+
+	@Override
+	public Response deletarVeiculoPorId(Long id) {
+		veiculoService.excluir(id);
+		return Response.status(Status.OK).entity(new MensagemRetornoDTO("Veículo deletado com sucesso!"))
+				.build();
 	}
 
 }

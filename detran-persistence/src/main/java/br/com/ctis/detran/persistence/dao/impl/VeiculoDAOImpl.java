@@ -1,5 +1,7 @@
 package br.com.ctis.detran.persistence.dao.impl;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
@@ -15,6 +17,10 @@ public class VeiculoDAOImpl extends GenericDAOImpl<Long, Veiculo> implements Vei
 
 
 	
+	private static final String ID = "id";
+	private static final String CPF_CNPJ = "cpfCnpj";
+	private static final String PLACA = "placa";
+
 	public Veiculo buscarVeiculoPorId(Long id) throws RegistroNaoEncontradoException, DAOException {
 		
 		StringBuilder builder = new StringBuilder();
@@ -22,7 +28,7 @@ public class VeiculoDAOImpl extends GenericDAOImpl<Long, Veiculo> implements Vei
 		.append("WHERE v.id =:id");
 		
 		TypedQuery<Veiculo> query = getEntityManager().createQuery(builder.toString(), Veiculo.class);
-		query.setParameter("id", id);
+		query.setParameter(ID, id);
 		
 		try {
 			return query.getSingleResult();
@@ -38,10 +44,10 @@ public class VeiculoDAOImpl extends GenericDAOImpl<Long, Veiculo> implements Vei
 		StringBuilder builder = new StringBuilder();
 		builder.append("SELECT v FROM Veiculo v ")
 		.append("LEFT JOIN FETCH v.multas ")
-		.append("WHERE v.placa =:placa");
+		.append("WHERE v.placa = :placa");
 		
 		TypedQuery<Veiculo> query = getEntityManager().createQuery(builder.toString(), Veiculo.class);
-		query.setParameter("placa", placa);
+		query.setParameter(PLACA, placa);
 		
 		
 		try {
@@ -54,7 +60,7 @@ public class VeiculoDAOImpl extends GenericDAOImpl<Long, Veiculo> implements Vei
 	}
 
 	@Override
-	public Veiculo buscarVeiculoPorCpfCnpjProprietario(String cpfCnpj)
+	public List<Veiculo> buscarVeiculoPorCpfCnpjProprietario(String cpfCnpj)
 			throws RegistroNaoEncontradoException, DAOException {
 		
 		StringBuilder builder = new StringBuilder();
@@ -64,10 +70,10 @@ public class VeiculoDAOImpl extends GenericDAOImpl<Long, Veiculo> implements Vei
 		.append("WHERE p.cpfCnpj =:cpfCnpj");
 		
 		TypedQuery<Veiculo> query = getEntityManager().createQuery(builder.toString(), Veiculo.class);
-		query.setParameter("cpfCnpj", cpfCnpj);
+		query.setParameter(CPF_CNPJ, cpfCnpj);
 		
 		try {
-			return query.getSingleResult();
+			return query.getResultList();
 		} catch (NoResultException e) {
 			throw new RegistroNaoEncontradoException();
 		} catch (PersistenceException e) {
@@ -76,19 +82,7 @@ public class VeiculoDAOImpl extends GenericDAOImpl<Long, Veiculo> implements Vei
 		
 	}
 
-	@Override
-	public Veiculo buscarVeiculoPorPlacaOuCpfCnpj(String placaOucpfCnpj)
-			throws RegistroNaoEncontradoException, DAOException {
-		Veiculo veiculo;
-		if(placaOucpfCnpj.length() > 7) {
-			veiculo = buscarVeiculoPorCpfCnpjProprietario(placaOucpfCnpj);
-		} else {
-			veiculo = buscarVeiculoPorPlaca(placaOucpfCnpj);
-		}
-		
-		return veiculo;
-	}
-
+	
 	
 
 }

@@ -5,10 +5,12 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
+import br.com.ctis.detran.dto.proprietario.ProprietarioDTO;
 import br.com.ctis.detran.enumeration.MensagemEnum;
 import br.com.ctis.detran.exception.DAOException;
 import br.com.ctis.detran.exception.NegocioException;
 import br.com.ctis.detran.exception.RegistroNaoEncontradoException;
+import br.com.ctis.detran.mapper.ProprietarioMapper;
 import br.com.ctis.detran.persistence.dao.ProprietarioDAO;
 import br.com.ctis.detran.persistence.model.Proprietario;
 import br.com.ctis.detran.service.ProprietarioService;
@@ -34,6 +36,13 @@ public class ProprietarioServiceImpl  extends GenericServiceImpl<Long, Proprieta
 		} catch (DAOException e) {
 			throw new NegocioException(MensagemUtil.getMessage(MensagemEnum.MSG001));
 		}
+	}
+
+	@Override
+	public void editarProprietario(Long id, ProprietarioDTO proprietarioDTO) {
+		Proprietario proprietario = consultarPorId(id);
+		proprietarioDAO.gravar(ProprietarioMapper.mapper(proprietario, proprietarioDTO));
+		
 	}
 
 }

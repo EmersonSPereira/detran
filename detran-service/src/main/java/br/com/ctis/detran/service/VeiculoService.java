@@ -1,10 +1,10 @@
 package br.com.ctis.detran.service;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import br.com.ctis.detran.dto.veiculo.CadastrarVeiculoDTO;
-import br.com.ctis.detran.exception.DAOException;
-import br.com.ctis.detran.exception.RegistroNaoEncontradoException;
 import br.com.ctis.detran.persistence.model.Veiculo;
 
 @Local
@@ -15,7 +15,7 @@ public interface VeiculoService extends GenericService<Long, Veiculo> {
 	 * 
 	 * @param veiculoDTO - Parâmetros de entrada para cadastrar um veiículo
 	 */
-	void CadastrarVeiculo(CadastrarVeiculoDTO veiculoDTO);
+	void cadastrarVeiculo(CadastrarVeiculoDTO veiculoDTO);
 	
 	/**
 	 * Busca um veículo pela placa no sistema
@@ -27,8 +27,9 @@ public interface VeiculoService extends GenericService<Long, Veiculo> {
 
 	/**
 	 * Busca um veículo pela placa no sistema
-	 * @param placaOucpfCnpj - placa do veículo que serar buscado ou Cpf/Cnpj do proprietário do veículo
+	 * @param cpfCnpj - placa do veículo que serar buscado ou Cpf/Cnpj do proprietário do veículo
 	 * @return {@link Veiculo} - um veículo cadastrado no sistema
 	 */
-	Veiculo buscarVeiculoPorPlacaOuCpfCnpj(String placaOucpfCnpj)throws RegistroNaoEncontradoException, DAOException;
+	List<Veiculo> buscarVeiculoPorCpfCnpjProprietario(String cpfCnpj);
+	
 }

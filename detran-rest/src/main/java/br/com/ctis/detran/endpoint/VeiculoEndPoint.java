@@ -2,8 +2,10 @@ package br.com.ctis.detran.endpoint;
 
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
@@ -29,4 +31,17 @@ public interface VeiculoEndPoint {
 			@ApiResponse(responseCode = "500", description = "Internal Server Error") })
 	Response cadastrarVeiculo(
 			@RequestBody(description = "Objeto Veiculo que será adicionado", required = true, content = @Content(schema = @Schema(implementation = CadastrarVeiculoDTO.class))) @Valid CadastrarVeiculoDTO veiculoDTO);
+	
+	@DELETE
+	@Path("{id}")
+	@Produces("application/json")
+	@Operation(description = "Deletar um veículo pelo id", summary = "Deletar Veículo ", 
+			   responses = {
+					   @ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json")),
+					   @ApiResponse(responseCode = "400", description = "Bad Request"),
+					   @ApiResponse(responseCode = "404", description = "Not found"),
+					   @ApiResponse(responseCode = "500", description = "Internal Server Error") 
+			    }
+			  )
+	Response deletarVeiculoPorId(@PathParam(value="id") Long id);
 }

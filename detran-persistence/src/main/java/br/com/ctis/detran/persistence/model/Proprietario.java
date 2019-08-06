@@ -22,6 +22,8 @@ public class Proprietario extends EntidadeBase<Long> {
 	
 	private String cpfCnpj;
 	
+	private String nome;
+	
 	private String rg;
 	
 	private String cnh;
@@ -35,6 +37,14 @@ public class Proprietario extends EntidadeBase<Long> {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getCpfCnpj() {

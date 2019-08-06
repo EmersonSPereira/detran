@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import br.com.ctis.detran.dto.proprietario.ProprietarioDTO;
 import br.com.ctis.detran.enumeration.MultasEnum;
 import br.com.ctis.detran.persistence.model.Multa;
 
@@ -26,6 +27,17 @@ public interface MultaService extends GenericService<Long, Multa> {
 	 * @param placa - placa do veículo que será consultado
 	 * @return {@link List<Multa>} - Lista com as multas do veículo
 	 */
-	List<Multa> consultarMultas(String placa);
+	List<Multa> consultarMultasPorplaca(String placa);
+	
+	/**
+	 * 
+	 * Lista todas as multas do Proprietário com o cpfCnpj passada como parâmetro
+	 * 
+	 * @param cpfCnpj - cpfCnpj do veículo que será consultado
+	 * @return {@link List<Multa>} - Lista com as multas do veículo
+	 */
+	List<Multa> consultarMultasPorCpfCnpj(String cpfCnpj);
+
+
 	
 }

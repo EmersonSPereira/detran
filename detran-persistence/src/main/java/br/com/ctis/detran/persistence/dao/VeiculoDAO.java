@@ -1,5 +1,7 @@
 package br.com.ctis.detran.persistence.dao;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import br.com.ctis.detran.exception.DAOException;
@@ -13,7 +15,7 @@ public interface VeiculoDAO extends GenericDAO<Long, Veiculo> {
 	
 	Veiculo buscarVeiculoPorPlaca(String placa) throws RegistroNaoEncontradoException, DAOException;
 	
-	Veiculo buscarVeiculoPorCpfCnpjProprietario(String cpfCnpj) throws RegistroNaoEncontradoException, DAOException;
+	List<Veiculo> buscarVeiculoPorCpfCnpjProprietario(String cpfCnpj) throws RegistroNaoEncontradoException, DAOException;
 	
-	Veiculo buscarVeiculoPorPlacaOuCpfCnpj(String placaOucpfCnpj)throws RegistroNaoEncontradoException, DAOException;
+	
 }

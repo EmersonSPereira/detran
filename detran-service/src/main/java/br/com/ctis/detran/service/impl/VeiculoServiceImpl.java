@@ -1,5 +1,7 @@
 package br.com.ctis.detran.service.impl;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -32,13 +34,13 @@ public class VeiculoServiceImpl extends GenericServiceImpl<Long, Veiculo>
 	private ProprietarioService proprietarioService;
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void CadastrarVeiculo(CadastrarVeiculoDTO veiculoDTO) {
+	public void cadastrarVeiculo(CadastrarVeiculoDTO veiculoDTO) {
 
 		Veiculo veiculo = VeiculoMapper.mapper(veiculoDTO);
 		veiculo.setPlaca(gerarPlaca());
 		
 		if(veiculoDTO.getProprietario().getId() != null) {
-			veiculo.setProprietario(proprietarioService.consultarPorId(veiculoDTO.getProprietario().getId()));;
+			veiculo.setProprietario(proprietarioService.consultarPorId(veiculoDTO.getProprietario().getId()));
 		}
 		
 		veiculoDAO.gravar(veiculo);
@@ -88,19 +90,26 @@ public class VeiculoServiceImpl extends GenericServiceImpl<Long, Veiculo>
 			return false;
 		}
 		
-		
-
 	}
 
 	@Override
-	public Veiculo buscarVeiculoPorPlacaOuCpfCnpj(String placaOucpfCnpj)
-			throws RegistroNaoEncontradoException, DAOException {
+	public List<Veiculo> buscarVeiculoPorCpfCnpjProprietario(String cpfCnpj) {
 		try {
-			return veiculoDAO.buscarVeiculoPorPlacaOuCpfCnpj(placaOucpfCnpj);
+			return veiculoDAO.buscarVeiculoPorCpfCnpjProprietario(cpfCnpj);
 		} catch (RegistroNaoEncontradoException e) {
 			throw new NegocioException(MensagemUtil.getMessage(MensagemEnum.MSG002));
 		} catch (DAOException e) {
 			throw new NegocioException(MensagemUtil.getMessage(MensagemEnum.MSG001));
 		}
+	}
+
+
+	
+	public void setVeiculoDAO(VeiculoDAO veiculoDAO) {
+		this.veiculoDAO = veiculoDAO;
+	}
+
+	public void setProprietarioService(ProprietarioService proprietarioService) {
+		this.proprietarioService = proprietarioService;
 	}
 }
