@@ -15,5 +15,16 @@ public class ProprietarioMapper {
 		proprietario.setEndereco(EnderecoMapper.mapper(proprietario.getEndereco(), proprietarioDTO.getEndereco()));
 		return proprietario;
 	}
+	
+public static Proprietario mapper(ProprietarioDTO proprietarioDTO ) {
+		
+		Proprietario proprietario = new Proprietario();
+		proprietario.setNome(proprietarioDTO.getNome());
+		proprietario.setCnh(proprietarioDTO.getCnh());
+		proprietario.setCpfCnpj(proprietarioDTO.getCpfCnpj());
+		proprietario.setRg(proprietarioDTO.getRg());
+		proprietario.setEndereco(EnderecoMapper.mapper(proprietarioDTO.getEndereco()));
+		return proprietario;
+	}
 
 }

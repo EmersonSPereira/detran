@@ -12,7 +12,7 @@ public class VeiculoMapper {
 		veiculo.setMarca(veiculoDto.getCor());
 		veiculo.setNome(veiculoDto.getNome());
 		veiculo.setRenavan(veiculoDto.getRenavan());
-		veiculo.setProprietario(veiculoDto.getProprietario());
+		veiculo.setProprietario(ProprietarioMapper.mapper(veiculoDto.getProprietario()));
 		return veiculo;
 	}
 }

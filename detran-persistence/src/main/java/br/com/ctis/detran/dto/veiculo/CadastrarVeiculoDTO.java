@@ -3,6 +3,7 @@ package br.com.ctis.detran.dto.veiculo;
 import javax.validation.constraints.NotNull;
 
 import br.com.ctis.detran.dto.BaseDTO;
+import br.com.ctis.detran.dto.proprietario.ProprietarioDTO;
 import br.com.ctis.detran.persistence.model.Proprietario;
 
 public class CadastrarVeiculoDTO extends BaseDTO {
@@ -24,7 +25,7 @@ public class CadastrarVeiculoDTO extends BaseDTO {
 	@NotNull(message = "Ano não pode ser nulo")
 	private Integer ano;
 
-	private Proprietario proprietario;
+	private ProprietarioDTO proprietario;
 
 	public String getCor() {
 		return cor;
@@ -66,12 +67,14 @@ public class CadastrarVeiculoDTO extends BaseDTO {
 		this.ano = ano;
 	}
 
-	public Proprietario getProprietario() {
+	public ProprietarioDTO getProprietario() {
 		return proprietario;
 	}
 
-	public void setProprietario(Proprietario proprietario) {
+	public void setProprietario(ProprietarioDTO proprietario) {
 		this.proprietario = proprietario;
 	}
+
+
 
 }

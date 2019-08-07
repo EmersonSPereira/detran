@@ -38,11 +38,7 @@ public class VeiculoServiceImpl extends GenericServiceImpl<Long, Veiculo>
 
 		Veiculo veiculo = VeiculoMapper.mapper(veiculoDTO);
 		veiculo.setPlaca(gerarPlaca());
-		
-		if(veiculoDTO.getProprietario().getId() != null) {
-			veiculo.setProprietario(proprietarioService.consultarPorId(veiculoDTO.getProprietario().getId()));
-		}
-		
+				
 		veiculoDAO.gravar(veiculo);
 
 	}

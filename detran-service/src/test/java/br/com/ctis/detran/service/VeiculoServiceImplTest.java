@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import br.com.ctis.detran.dto.proprietario.ProprietarioDTO;
 import br.com.ctis.detran.dto.veiculo.CadastrarVeiculoDTO;
 import br.com.ctis.detran.exception.DAOException;
 import br.com.ctis.detran.exception.NegocioException;
@@ -116,17 +117,26 @@ public class VeiculoServiceImplTest {
 		cadastrarVeiculoDTO.setCor("cor");
 		cadastrarVeiculoDTO.setMarca("marca");
 		cadastrarVeiculoDTO.setAno(1999);
-		cadastrarVeiculoDTO.setProprietario(mockProprietario());
+		cadastrarVeiculoDTO.setProprietario(mockProprietarioDTO());
 		cadastrarVeiculoDTO.setRenavan("renavan");
 		return cadastrarVeiculoDTO;
 	}
 
+	private ProprietarioDTO mockProprietarioDTO() {
+
+		ProprietarioDTO proprietario = new ProprietarioDTO();
+		proprietario.setNome("nome");
+		return proprietario;
+	}
+	
 	private Proprietario mockProprietario() {
 
 		Proprietario proprietario = new Proprietario();
-		proprietario.setNome("nome");
 		proprietario.setId(1l);
+		proprietario.setNome("nome");
 		return proprietario;
 	}
+	
+	
 
 }
